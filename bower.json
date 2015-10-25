@@ -1,9 +1,9 @@
 {
   "name": "fng-ckeditor",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "author": "Mark Chapman <support@forms-angular.org>",
   "description": "ckEditor plugin for forms-angular.  Doesn't do anything apart from drag in components.",
-  "main": "",
+  "main": ["dummy.js"],
   "keywords": [
     "forms-angular"
   ],
