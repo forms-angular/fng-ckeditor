@@ -4,7 +4,8 @@ Documentation for getting a WYSIWYG field in forms-angular
 
 ## Usage
 
-    npm install ng-ckeditor
+    npm install github:esvit/ng-ckeditor
+
 
 Add the following lines to your index.html (or equivalent) file
 
