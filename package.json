@@ -1,0 +1,24 @@
+{
+  "name": "fng-ckeditor",
+  "version": "0.12.0-beta.17",
+  "description": "CKEditor Plugin",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/forms-angular/fng-ckeditor.git"
+  },
+  "keywords": [
+    "forms-angular",
+    "WYSIWYG",
+    "editor"
+  ],
+  "author": "Mark Chapman",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/forms-angular/fng-ckeditor/issues"
+  },
+  "homepage": "https://github.com/forms-angular/fng-ckeditor#readme"
+}
