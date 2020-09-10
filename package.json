@@ -1,6 +1,6 @@
 {
   "name": "fng-ckeditor",
-  "version": "0.12.0-beta.102",
+  "version": "0.12.0-beta.103",
   "description": "CKEditor Plugin",
   "main": "index.js",
   "scripts": {
