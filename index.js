@@ -13,36 +13,42 @@ function editorDirective () {
             replacePlugins: '=',
             toolbar: '='
         },
-        link: (scope, element, attrs, ngModel) => {
+        link: function(scope, element, attrs, ngModel) {
             'ngInject';
-            const constructConfigArray = (customItems, defaultItems, replace) => {
+            var constructConfigArray = function(customItems, defaultItems, replace) {
                 if (!customItems) return defaultItems;
                 if (customItems && replace) return customItems;
                 return defaultItems.concat(customItems);
             };
 
-            const constructConfig = () => {
-                const { config, plugins, removePlugins, replaceConfig, replacePlugins, replaceToolbar, toolbar } = scope;
+            var constructConfig = function() {
+                var config = scope.config;
+                var plugins = scope.plugins;
+                var removePlugins = scope.removePlugins;
+                var replaceConfig = scope.replaceConfig;
+                var replacePlugins = scope.replacePlugins;
+                var replaceToolbar = scope.replaceToolbar;
+                var toolbar = scope.toolbar;
 
                 if (!config && !toolbar && !plugins) return;
                 if (config && replaceConfig) return config;
 
                 // construct the plugins, if replacePlugins is truthy, we only provide the given plugins
-                const defaultPlugins = classicEditor.build.plugins.map(plugin => plugin.pluginName);
-                let customPlugins = constructConfigArray(plugins, defaultPlugins, replacePlugins);
+                var defaultPlugins = classicEditor.build.plugins.map(function(plugin) {return plugin.pluginName});
+                var customPlugins = constructConfigArray(plugins, defaultPlugins, replacePlugins);
 
                 // construct the toolbar, if replaceToolbar is truthy, we only provide the given toolbar config
-                const defaultToolbar = classicEditor.build.config.toolbar.items;
-                let customToolbar = constructConfigArray(toolbar, defaultToolbar, replaceToolbar);
+                var defaultToolbar = classicEditor.build.config.toolbar.items;
+                var customToolbar = constructConfigArray(toolbar, defaultToolbar, replaceToolbar);
 
                 return Object.assign({}, {
                     plugins: customPlugins,
-                    removePlugins,
+                    removePlugins: removePlugins,
                     toolbar: customToolbar
                 }, config);
             };
 
-            const isTextarea = element[0].tagName.toLowerCase() === 'textarea';
+            var isTextarea = element[0].tagName.toLowerCase() === 'textarea';
             if (!isTextarea) {
                 throw new Error('element is not a textarea');
             }
@@ -50,23 +56,23 @@ function editorDirective () {
             ClassicEditor.create(
                 element[0],
                 constructConfig()
-            ).then((instance) => {
-                const setData = () => {
-                    const data = instance.getData();
-                    const value = ngModel.$viewValue || '';
+            ).then(function(instance) {
+                var setData = function() {
+                    var data = instance.getData();
+                    var value = ngModel.$viewValue || '';
 
                     if (data !== value) {
                         instance.setData(value);
                     }
                 };
 
-                const setModel = () => {
-                    const data = instance.getData();
+                var setModel = function() {
+                    var data = instance.getData();
                     ngModel.$setViewValue(data);
                     ngModel.$render();
                 };
 
-                scope.$watch(() => ngModel.$viewValue, setData);
+                scope.$watch(function() {return ngModel.$viewValue}, setData);
                 instance.model.document.on('change', setModel);
             });
         }
