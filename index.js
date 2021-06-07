@@ -5,6 +5,7 @@ function editorDirective () {
         restrict: 'A',
         require: 'ngModel',
         scope: {
+            custom: '=',
             config: '=',
             plugins: '=',
             removePlugins: '=',
@@ -53,9 +54,56 @@ function editorDirective () {
                 throw new Error('element is not a textarea');
             }
 
+            const customConfig = {
+				toolbar: {
+					items: [
+						'heading',
+						'|',
+						'bold',
+						'italic',
+						'underline',
+						'bulletedList',
+						'numberedList',
+						'|',
+						'fontBackgroundColor',
+						'fontColor',
+						'outdent',
+						'indent',
+						'|',
+						'link',
+						'imageUpload',
+						'blockQuote',
+						'insertTable',
+						'mediaEmbed',
+						'undo',
+						'redo',
+						'horizontalLine',
+						'removeFormat',
+						'htmlEmbed'
+					]
+				},
+				language: 'en',
+				image: {
+					toolbar: [
+						'imageTextAlternative',
+						'imageStyle:full',
+						'imageStyle:side'
+					]
+				},
+				table: {
+					contentToolbar: [
+						'tableColumn',
+						'tableRow',
+						'mergeTableCells',
+						'tableCellProperties',
+						'tableProperties'
+					]
+				},
+				licenseKey: '',
+			};
             ClassicEditor.create(
                 element[0],
-                constructConfig()
+                attrs.custom !== undefined ? customConfig : constructConfig()
             ).then(function(instance) {
                 var setData = function() {
                     var data = instance.getData();
