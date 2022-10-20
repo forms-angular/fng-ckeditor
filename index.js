@@ -49,9 +49,15 @@ function editorDirective () {
                 }, config);
             };
 
-            var isTextarea = element[0].tagName.toLowerCase() === 'textarea';
-            if (!isTextarea) {
-                throw new Error('element is not a textarea');
+            const textarea = element[0];
+            if (textarea.tagName.toLowerCase() !== "textarea") {
+                throw new Error("element is not a textarea");
+            }
+            if (textarea.id) {
+                const disabledFunc = scope.$root.isSecurelyDisabled;
+                if (disabledFunc && disabledFunc(textarea.id)) {
+                    return;
+                }
             }
 
             const customConfig = {
