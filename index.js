@@ -49,9 +49,16 @@ function editorDirective () {
                 }, config);
             };
 
-            var isTextarea = element[0].tagName.toLowerCase() === 'textarea';
-            if (!isTextarea) {
-                throw new Error('element is not a textarea');
+            let isReadOnly = false;
+            const textarea = element[0];
+            if (textarea.tagName.toLowerCase() !== "textarea") {
+                throw new Error("element is not a textarea");
+            }
+            if (textarea.id) {
+                const disabledFunc = scope.$root.isSecurelyDisabled;
+                if (disabledFunc && disabledFunc(textarea.id)) {
+                    isReadOnly = true;
+                }
             }
 
             const customConfig = {
@@ -105,6 +112,8 @@ function editorDirective () {
                 element[0],
                 attrs.custom !== undefined ? customConfig : constructConfig()
             ).then(function(instance) {
+                instance.isReadOnly = isReadOnly;
+                
                 var setData = function() {
                     var data = instance.getData();
                     var value = ngModel.$viewValue || '';
