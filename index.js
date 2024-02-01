@@ -49,7 +49,7 @@ function editorDirective () {
                 }, config);
             };
 
-            let isReadOnly = false;
+            let isReadOnly = attrs.disabled || false;
             const textarea = element[0];
             if (textarea.tagName.toLowerCase() !== "textarea") {
                 throw new Error("element is not a textarea");
@@ -60,7 +60,6 @@ function editorDirective () {
                     isReadOnly = true;
                 }
             }
-
             const customConfig = {
 				toolbar: {
 					items: [
@@ -113,6 +112,10 @@ function editorDirective () {
                 attrs.custom !== undefined ? customConfig : constructConfig()
             ).then(function(instance) {
                 instance.isReadOnly = isReadOnly;
+                if (isReadOnly) {
+                    const toolbarElement = instance.ui.view.toolbar.element;
+                    toolbarElement.style.display = 'none';
+                } 
                 
                 var setData = function() {
                     var data = instance.getData();
